@@ -23,7 +23,14 @@ def get_coin_grade(coin: str) -> int:
     print(f"Highest Value In Last Year: {highest_price}")
     print(f"Lowest Value In Last Year: {lowest_price.strip('/')}")
     result = soup.find('ul', attrs={'class': 'content'})
-    print(f'Website Link: {list(result.children)[0].find("a").attrs.get("href")}')
+    website_link = list(result.children)[0].find("a").attrs.get("href")
+    print(f'Website Link: {website_link}')
+    response = requests.get(website_link)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    footer = soup.find('footer')
+    if not footer:
+        footer = soup.find('div', attrs={'class': 'footer'})
+    print('footer exits: ' + str(footer != None))
     grade = 0
     market_cap = string_to_int(market_cap)
     current_price = string_to_int(current_price)
@@ -35,4 +42,4 @@ def get_coin_grade(coin: str) -> int:
     return grade
 
 if __name__ == '__main__':
-    print(get_coin_grade('render-token'))
+    print(get_coin_grade('listen-to-earn'))
