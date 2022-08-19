@@ -11,7 +11,8 @@ class Fetch(Enum):
     ALL = 0
     ONE = 1
 
-class CryptoAnalyzer(BeautifulSoup):
+
+class CoinMarketCapAnalyzer(BeautifulSoup):
     def __init__(self, coin_name):
         response = requests.get(f'{COIN_MARKET_CAP_URL}{coin_name}/')
         raw_html = response.text
@@ -37,3 +38,12 @@ class CryptoAnalyzer(BeautifulSoup):
     def get_website_link(self):
         result = self.__find_with_class__('content', Fetch.ONE, 'ul')
         return list(result.children)[0].find("a").attrs.get("href")
+
+
+print(CoinMarketCapAnalyzer('bitcoin'))
+
+# TODO check if the coins graph grows similar to bitcoin graph
+# TODO implement coin market cap API
+# TODO check how many sections are in the read more class (counting titles)
+# TODO Who are the founders and what is the coin are must
+

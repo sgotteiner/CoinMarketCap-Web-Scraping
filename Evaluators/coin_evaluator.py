@@ -1,12 +1,12 @@
-class Coin_Total_Evaluator:
-    def __init__(self, cmc_evaluator: Coin_Market_Cap_Evaluator,
-                 website_evaluator: Coin_Website_Evaluator,
-                 community_evaluator: Coin_Community_Evaluator,
-                 team_evaluator: Team_Evaluator,
-                 github_evaluator: Github_Evaluator,
-                 collaboration_evaluator: Collaboration_Evaluator,
-                 white_paper_evaluator: White_Paper_Evaluator,
-                 roadmap_evaluator: Roadmap_Evaluator):
+class CoinTotalEvaluator:
+    def __init__(self, cmc_evaluator: CoinMarketCapEvaluator,
+                 website_evaluator: CoinWebsiteEvaluator,
+                 community_evaluator: CoinCommunityEvaluator,
+                 team_evaluator: TeamEvaluator,
+                 github_evaluator: GithubEvaluator,
+                 collaboration_evaluator: CollaborationEvaluator,
+                 white_paper_evaluator: WhitePaperEvaluator,
+                 roadmap_evaluator: RoadmapEvaluator):
         self.cmc_evaluator = cmc_evaluator
         self.website_evaluator = website_evaluator
         self.community_evaluator = community_evaluator
