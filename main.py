@@ -35,4 +35,5 @@ def get_coin_grade(coin: str) -> int:
     return grade
 
 if __name__ == '__main__':
+    print()
     print(get_coin_grade('render-token'))
