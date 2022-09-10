@@ -1,6 +1,10 @@
+import requests
+
 from base_analyzer import BaseAnalyzer, Fetch
 
 COIN_MARKET_CAP_URL = 'https://coinmarketcap.com/currencies/'
+LISTING_LATEST_URL = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest'
+COIN_MARKET_CAP_API_KEY = '55877b76-4ec6-4b43-8f56-13bc6d4ba226'
 
 HIGH_LOW_VALUE_SEARCH_QUERY = '52 Week Low / 52 Week High'
 
@@ -62,8 +66,20 @@ class CoinMarketCapAnalyzer(BaseAnalyzer):
         num = text.split(' ')[1].replace(',', '')
         return num
 
+    def get_date_added(self):
+        result = self.__find_with_class__(class_name='nameSymbol', fetch_type=Fetch.ONE, element='small')
+        symbol = result.text
+        headers = {'X-CMC_PRO_API_KEY': COIN_MARKET_CAP_API_KEY}
+        params = {'symbol': symbol}
+        res = requests.get(LISTING_LATEST_URL, headers=headers, params=params)
+        date_added = res.json()['data'][symbol.upper()][0]['date_added']
+        only_dmy_list = date_added[:10].split('-')
+        only_dmy_list.reverse()
+        date = '/'.join(only_dmy_list)
+        return date
 
-print(CoinMarketCapAnalyzer('basic-attention-token').get_market_cap())
+
+print(CoinMarketCapAnalyzer('kadena').get_date_added())
 
 # TODO check if the coins graph grows similar to bitcoin graph
 # TODO implement coin market cap API
