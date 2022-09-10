@@ -23,13 +23,15 @@ class WebsiteAnalyzer(BaseAnalyzer):
         print('blog' in self.texts)
 
     def find_is_one_page(self):
+        # todo
         pass
 
     def find_team(self):
+        # todo find team
         print('team' in self.texts)
 
     def __find_community__(self):
-        socials = ('twitter', 'discord', 'reddit', 'telegram')
+        socials = ('twitter', 'discord', 'reddit', 'telegram', 'youtube')
         # self.community_links = [link for link in self.links if any(social in link for social in socials)]
         for social in socials:
             # if there are a couple of links for each social
