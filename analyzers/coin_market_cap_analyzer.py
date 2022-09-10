@@ -1,6 +1,4 @@
-from bs4 import BeautifulSoup
-from enum import Enum
-import requests
+from base_analyzer import BaseAnalyzer, Fetch
 
 COIN_MARKET_CAP_URL = 'https://coinmarketcap.com/currencies/'
 
@@ -9,21 +7,9 @@ HIGH_LOW_VALUE_SEARCH_QUERY = '52 Week Low / 52 Week High'
 EXPLANATIONS_CLASS = 'sc-2qtjgt-0 eApVPN'
 
 
-class Fetch(Enum):
-    ALL = 0
-    ONE = 1
-
-
-class CoinMarketCapAnalyzer(BeautifulSoup):
+class CoinMarketCapAnalyzer(BaseAnalyzer):
     def __init__(self, coin_name):
-        response = requests.get(f'{COIN_MARKET_CAP_URL}{coin_name}/')
-        raw_html = response.text
-        super().__init__(raw_html, 'html.parser')
-
-    def __find_with_class__(self, class_name, fetch_type=Fetch.ALL, element='div'):
-        if fetch_type == Fetch.ALL:
-            return self.find_all(element, attrs={'class': class_name})
-        return self.find(element, attrs={'class': class_name})
+        super().__init__(f'{COIN_MARKET_CAP_URL}{coin_name}/')
 
     def get_current_price(self):
         return self.__find_with_class__('priceValue', Fetch.ONE).text
@@ -66,8 +52,12 @@ class CoinMarketCapAnalyzer(BeautifulSoup):
     def number_of_explanation_topics(self):
         return len(self.__find_explanation_topics__())
 
+    def like_bitcoin(self):
+        chart = self.__find_with_class__(class_name='fullscreen')
+        return self.prettify()
 
-print(CoinMarketCapAnalyzer('ethereum').number_of_explanation_topics())
+
+print(CoinMarketCapAnalyzer('basic-attention-token').number_of_explanation_topics())
 
 # TODO check if the coins graph grows similar to bitcoin graph
 # TODO implement coin market cap API
