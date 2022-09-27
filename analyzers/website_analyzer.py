@@ -1,3 +1,4 @@
+from analyzers.community_analyzer import CommunityAnalyzer
 from base_analyzer import BaseAnalyzer, Fetch
 
 
@@ -11,6 +12,7 @@ class WebsiteAnalyzer(BaseAnalyzer):
         self.key_links = {}
         self.__find_footer__()
         self.__find_tags__()
+        CommunityAnalyzer(self.key_links)
 
     def __find_footer__(self):
         self.footer = self.find('footer')
@@ -31,7 +33,7 @@ class WebsiteAnalyzer(BaseAnalyzer):
         print('team' in self.texts)
 
     def __find_community__(self):
-        socials = ('twitter', 'discord', 'reddit', 'telegram', 'youtube')
+        socials = ('twitter', 'discord', 'reddit', 'telegram', 't.me', 'youtube')
         # self.community_links = [link for link in self.links if any(social in link for social in socials)]
         for social in socials:
             # if there are a couple of links for each social

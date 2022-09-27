@@ -6,7 +6,10 @@ HIGH_LOW_VALUE_SEARCH_QUERY = '52 Week Low / 52 Week High'
 
 EXPLANATIONS_CLASS = 'sc-2qtjgt-0 eApVPN'
 
-
+"""
+this class searches in CoinMarketCap, market cap, price data, website link, explanations below the chart,
+number of watchers and github link.
+"""
 class CoinMarketCapAnalyzer(BaseAnalyzer):
     def __init__(self, coin_name):
         super().__init__(f'{COIN_MARKET_CAP_URL}{coin_name}/')
@@ -62,8 +65,15 @@ class CoinMarketCapAnalyzer(BaseAnalyzer):
         num = text.split(' ')[1].replace(',', '')
         return num
 
+    def github_link(self):
+        results = self.__find_with_class__(class_name='sc-16r8icm-0 sc-10up5z1-1 eUVvdh')
+        li_list =  results[0].contents[2].contents
+        for l in li_list:
+            if l.text == 'Source code':
+                return l.contents[0].attrs['href']
+        return None
 
-print(CoinMarketCapAnalyzer('basic-attention-token').get_market_cap())
+print(CoinMarketCapAnalyzer('zel').github_link())
 
 # TODO check if the coins graph grows similar to bitcoin graph
 # TODO implement coin market cap API
